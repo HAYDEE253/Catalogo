@@ -1,0 +1,390 @@
+body {
+    font-family: 'Poppins', sans-serif;/* Fuente principal */
+    background: radial-gradient(circle, #f5e4fa, #b251bf);/* Fondo degradado circular */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;  /* Color de texto principal */ 
+  }
+  h1 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3em; /* Tamaño grande para llamar la atención */
+    color: #ffcc00; /* Color dorado que recuerda al oro */
+    text-align: center;
+    margin: 40px 0;
+    text-transform: uppercase; /* Convierte el texto a mayúsculas */
+    letter-spacing: 3px; /* Espaciado entre letras */
+    background: linear-gradient(45deg, #8f659a, #823b94); /* Gradiente de color */
+    background-clip: text; /* Aplica el gradiente solo al texto */
+    color: transparent; /* Oculta el color sólido para mostrar el gradiente */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra sutil */
+    position: relative;
+  }
+  /* Lista de joyas */
+  #joyasList {
+    display: flex;/* Permite varias filas */
+    flex-wrap: wrap;/* Espacio entre joyas */
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .joya {
+    background: linear-gradient(135deg, #e8cfe8, #d5abd9);/* Fondo degradado */
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    width: 250px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);/* Sombra alrededor */
+    transition: transform 0.4s, box-shadow 0.4s;/* Transición en hover */
+  }
+  .joya:hover {
+    transform: scale(1.1);/* Agranda ligeramente */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);/* Sombra más grande */
+  }
+  .joya h3 {
+    color: #8b16bd;
+    font-size: 1.5em;/* Tamaño de título de joya */
+    margin: 0 0 10px;
+  }
+  
+  .joya p {
+    color: #666;
+    font-size: 1em;/* Tamaño de descripción de joya */
+    margin: 10px 0;
+  }
+  
+  /* Estilos del botón de cerrar */
+  #closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #861ebe;
+    cursor: pointer;
+  }
+  /* Estilos generales de botones */
+  button {
+    background-color: #007bff;/* Azul por defecto */
+    color: #fff;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 30px;/* Bordes redondeados */
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15);/* Sombra ligera */
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  button:hover {
+    background-color: #8d29a8;/* Color más oscuro al pasar */
+    transform: scale(1.05);
+  }
+  /* Botón para agregar joya - centrado y estilizado */
+  #addJoyaBtn {
+    display: block;
+    margin: 20px auto;/* Centrado */
+    background-color: #9b1eb7;/* Morado */
+    color: white;
+    padding: 14px 22px;
+    border-radius: 30px;
+    font-size: 1.2em;
+    font-weight: bold;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  #addJoyaBtn:hover {
+    background-color: #6000a9;
+    transform: scale(1.1);
+  }
+  #addJoyaForm {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    color: #333;
+  }
+  #joyaForm {
+    background-color: #e6aaed;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    width: 320px;
+    position: relative;
+  }
+  #addJoyaForm input[type="text"],
+  #addJoyaForm input[type="number"],
+  #addJoyaForm input[type="checkbox"],
+  #addJoyaForm button {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 12px;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+  }
+  #addJoyaForm button {
+    background-color: #dc5bed;
+  }
+  #addJoyaForm button:hover {
+    background-color: #8e3698;
+  }
+  /* Asegúrate de que html y body ocupen toda la altura */
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Contenedor principal que ocupará el espacio restante */
+  .main-content {
+    flex: 1;
+  }
+  
+  #contactoUbicacion {
+   text-align: center;
+    justify-content: space-between; /* Separa los elementos entre sí */
+    align-items: flex-start; /* Alinea los elementos al principio */
+    width: 100%;
+    padding: 40px;
+    margin-top: 60px;
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    flex-wrap: wrap; /* Permite que los elementos se acomoden en líneas si es necesario */
+  }
+  
+  #informacionContacto {
+    flex: 1;
+    padding-right: 20px; /* Espacio entre la información y el mapa */
+    margin-bottom: 20px; /* Espacio debajo de la información para que no se pegue al mapa */
+  }
+  
+  #mapaUbicacion {
+    flex-shrink: 0; /* Evita que el mapa se reduzca */
+    margin-top: 20px; /* Añade margen para separar el mapa de la información en pantallas más pequeñas */
+  }
+  
+  #mapaUbicacion iframe {
+    width: 100%; /* El mapa ocupa el 100% del contenedor */
+    max-width: 500px; /* Limita el tamaño máximo */
+    height: 200px;
+    border: none;
+  }
+  
+  .joya {
+    width: 300px;        /* Tamaño fijo o puedes usar un porcentaje */
+    height: 400px;       /* Ajusta la altura según lo necesario */
+    justify-content: center;  /* Centra horizontalmente */ 
+    overflow: hidden;    /* Oculta cualquier contenido que sobresalga del contenedor */
+    padding: 10px;       /* Espaciado dentro del contenedor */
+    margin: 10px;        /* Espaciado alrededor del contenedor */
+  }
+  .joya img {
+    max-width: 100%;         /* La imagen no puede ser más ancha que su contenedor */
+    max-height: 200px;      /* Limita la altura máxima de la imagen */
+    object-fit: contain;    /* Asegura que la imagen se ajuste dentro del contenedor sin perder su proporción */
+  }
+  
+  /* Estilo para el modal (formulario) */
+  .modal {
+    display: none; /* Inicialmente oculto */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    padding: 20px;
+    
+  }
+  
+  .form-container {
+    background-color: #ffffff;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  .form-container input[type="text"],
+  
+  .form-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50; /* Verde */
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .form-container button:hover {
+    background-color: #45a049;
+  }
+     /* Estilo del botón de cierre */
+     .close {
+      color: #aaa;
+      font-size: 28px;
+      font-weight: bold;
+      position: absolute;
+      top: 10px;
+      right: 25px;
+      cursor: pointer;
+    }
+  
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+  /* Estilos para el formulario emergente de modificar/eliminar */
+/* Estilos para el formulario emergente */
+#action-form {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  text-align: center;
+  z-index: 1000;
+}
+
+/* Botón de cierre */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 18px;
+  cursor: pointer;
+  color: #888;
+}
+
+.close:hover {
+  color: #000;
+}
+
+#action-form h3 {
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  color: #8b16bd;
+}
+
+#action-form p {
+  font-size: 1em;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+#action-form button {
+  width: 45%;
+  padding: 10px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+#modify-button {
+  background-color: #007bff;
+  color: white;
+}
+
+#modify-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+#delete-button {
+  background-color: #d9534f;
+  color: white;
+}
+
+#delete-button:hover {
+  background-color: #c9302c;
+  transform: scale(1.05);
+}
+
+/* Para cerrar el formulario después de una acción */
+.hidden {
+  display: none !important;
+}
+/* Estilos mejorados para el formulario de edición */
+#edit-form {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  width: 320px;
+  text-align: center;
+  z-index: 1000;
+}
+
+#edit-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+#edit-form input[type="text"],
+#edit-form input[type="number"],
+#edit-form input[type="checkbox"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+#edit-save {
+  background-color: #28a745;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#edit-save:hover {
+  background-color: #218838;
+}
+
+/* Bloqueo de eliminación al editar */
+#modify-button:disabled,
+#delete-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

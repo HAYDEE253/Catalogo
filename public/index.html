@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajusta la escala para dispositivos móviles -->
+  <title>Catálogo de Joyas</title> 
+  <link rel="stylesheet" href="estilo.css">
+   <!-- Enlace al archivo JavaScript para manejar la funcionalidad -->
+</head>
+<body>
+  <!-- Sección del catálogo de joyas, oculta hasta iniciar sesión -->
+  <div id="catalogSection">
+    <h1>Catálogo de Joyas</h1>
+    <button id="addJoyaBtn">Agregar Joya</button>
+  
+    <!-- Formulario para agregar una joya -->
+    <div id="addJoyaForm" class="modal">
+      <span id="closeBtn" class="close">&times;</span>
+      <form id="joyaForm" class="form-container">
+        <input type="text" id="nombre" placeholder="Nombre de la joya" required>
+        <input type="text" id="descripcion" placeholder="Descripción de la joya" required>
+        <input type="number" id="precio" placeholder="Precio" required>
+        <input type="text" id="material" placeholder="Material" required>
+        <input type="checkbox" id="en_stock" checked> En stock
+        <input type="text" id="categoria" placeholder="Categoría" required>
+        <br><br>
+        <input type="file" id="imagen">
+        <br><br>
+        <button type="submit">Guardar Joya</button>
+      </form>
+    </div>
+  
+    <div id="joyasList"></div>
+  </div>
+  <!-- Formulario emergente de acción -->
+<div id="action-form" style="display: none;">
+  <span id="close-action-form" class="close">&times;</span>
+  <h3>Selecciona una acción para la joya</h3>
+  <p id="action-joya-nombre"></p>
+  <button id="modify-button">Modificar</button>
+  <button id="delete-button">Eliminar</button>
+</div>
+
+  <!-- Formulario para agregar/modificar joyas (ya existente) -->
+  <div id="edit-form" style="display: none; background-color: #fff; padding: 20px; border: 1px solid #ccc;">
+    <h3>Editar Joya</h3>
+    <label>Nombre: <input type="text" id="edit-nombre"></label>
+    <label>Descripción: <input type="text" id="edit-descripcion"></label>
+    <label>Precio: <input type="number" id="edit-precio"></label>
+    <label>Material: <input type="text" id="edit-material"></label>
+    <label>Categoría: <input type="text" id="edit-categoria"></label>
+    <label>En Stock: <input type="checkbox" id="edit-en_stock"></label>
+    <button id="edit-save">Guardar Cambios</button>
+    
+  </div>
+  
+  
+  <hr> <!-- Línea de separación antes del pie de página -->
+
+  <!-- Pie de página con información de contacto y ubicación -->
+  <footer id="contactoUbicacion">
+    <h2>Contacto</h2> <!-- Subtítulo de la sección de contacto -->
+    <p>Visítanos en Huetamo de Núñez, Michoacán, México</p> <!-- Dirección de la tienda -->
+    <p>Teléfono: +52 123 456 7890</p> <!-- Número de teléfono -->
+    <p>Email: contacto@joyeriahuetamo.com</p> <!-- Correo electrónico de contacto -->
+  
+    <!-- Mapa con la ubicación de la tienda -->
+    <div id="mapaUbicacion">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3435.082297395678!2d-100.899245654165!3d18.62988096359799!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8432dc7d17a20ef5%3A0x4064fbae82bb5504!2sSoriana%20Express%20-%20Huetamo!5e0!3m2!1ses!2smx!4v1731450085320!5m2!1ses!2smx" 
+      width="600" 
+      height="450" 
+      style="border:0;" 
+      allowfullscreen="" 
+      loading="lazy" 
+      referrerpolicy="no-referrer-when-downgrade">
+      </iframe> <!-- Mapa de Google Maps mostrando la ubicación específica -->
+    </div>
+  </footer> 
+  <script defer src="node.js"></script>
+</body>
+</html>
