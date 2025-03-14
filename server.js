@@ -1,12 +1,15 @@
+require('dotenv').config(); // Cargar variables de entorno
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const multer = require('multer');
-const app = express();
-const port = 3000;
 const fs = require('fs');
+
+const app = express();
+const port = process.env.PORT || 3000; // Usa el puerto definido en .env o el 3000 por defecto
 const uploadPath = path.join(__dirname, 'public', 'uploads');
 
 // Si la carpeta no existe, la crea
@@ -17,7 +20,6 @@ if (!fs.existsSync(uploadPath)) {
 // Configuración de multer para almacenar las imágenes
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, 'public', 'uploads'); // RUTA CORRECTA
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
@@ -25,20 +27,19 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 // Configuración de middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true })); // Asegurar que se pueda leer datos de formularios
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
+app.use('/uploads', express.static(uploadPath));
 
-
-// Conexión a MongoDB
-mongoose.connect('mongodb://localhost:27017/BD', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Conectado a MongoDB'))
-  .catch((err) => console.log('Error al conectar con MongoDB:', err));
+// Conexión a MongoDB usando variable de entorno
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('✅ Conectado a MongoDB'))
+  .catch((err) => console.log('❌ Error al conectar con MongoDB:', err));
 
 // Esquema de la joya en MongoDB
 const joyaSchema = new mongoose.Schema({
@@ -53,7 +54,7 @@ const joyaSchema = new mongoose.Schema({
 
 const Joya = mongoose.model('Joya', joyaSchema);
 
-// Ruta para obtener todas las joyas
+// Rutas
 app.get('/joyas', async (req, res) => {
   try {
     const joyas = await Joya.find();
@@ -64,7 +65,6 @@ app.get('/joyas', async (req, res) => {
   }
 });
 
-// Ruta para agregar una nueva joya con imagen (sin autenticación)
 app.post('/joyas', upload.single('imagen'), async (req, res) => {
   try {
     const { nombre, descripcion, precio, material, en_stock, categoria } = req.body;
@@ -79,7 +79,7 @@ app.post('/joyas', upload.single('imagen'), async (req, res) => {
       descripcion,
       precio,
       material,
-      en_stock: en_stock === 'true', // Convertir string a booleano
+      en_stock: en_stock === 'true',
       categoria,
       imagen: imagenUrl,
     });
@@ -93,7 +93,6 @@ app.post('/joyas', upload.single('imagen'), async (req, res) => {
   }
 });
 
-// Ruta para eliminar una joya
 app.delete('/joyas/:id', async (req, res) => {
   try {
     const result = await Joya.findByIdAndDelete(req.params.id);
@@ -107,7 +106,6 @@ app.delete('/joyas/:id', async (req, res) => {
   }
 });
 
-// Ruta para actualizar una joya
 app.put('/joyas/:id', async (req, res) => {
   try {
     const { nombre, descripcion, precio, material, en_stock, categoria } = req.body;
@@ -131,5 +129,5 @@ app.put('/joyas/:id', async (req, res) => {
 
 // Servidor escuchando
 app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
+  console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
 });
