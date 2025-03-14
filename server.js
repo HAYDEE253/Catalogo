@@ -1,13 +1,12 @@
-require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const multer = require('multer');
-const fs = require('fs');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3000;
+const fs = require('fs');
 const uploadPath = path.join(__dirname, 'public', 'uploads');
 
 // Si la carpeta no existe, la crea
@@ -18,6 +17,7 @@ if (!fs.existsSync(uploadPath)) {
 // Configuración de multer para almacenar las imágenes
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, 'public', 'uploads'); // RUTA CORRECTA
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
@@ -30,17 +30,15 @@ const upload = multer({ storage: storage });
 // Configuración de middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true })); // Asegurar que se pueda leer datos de formularios
 app.use(express.static('public'));
-app.use('/uploads', express.static(uploadPath));
+app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
-// Conexión a MongoDB usando variable de entorno
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('✅ MongoDB conectado'))
-  .catch((err) => console.log('❌ Error al conectar con MongoDB:', err));
+
+// Conexión a MongoDB
+mongoose.connect('mongodb://localhost:27017/BD', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Conectado a MongoDB'))
+  .catch((err) => console.log('Error al conectar con MongoDB:', err));
 
 // Esquema de la joya en MongoDB
 const joyaSchema = new mongoose.Schema({
@@ -50,22 +48,23 @@ const joyaSchema = new mongoose.Schema({
   material: String,
   en_stock: Boolean,
   categoria: String,
-  imagen: String,
+  imagen: String, // Guardamos la URL de la imagen
 });
 
 const Joya = mongoose.model('Joya', joyaSchema);
 
-// Rutas CRUD
+// Ruta para obtener todas las joyas
 app.get('/joyas', async (req, res) => {
   try {
     const joyas = await Joya.find();
     res.json(joyas);
   } catch (err) {
-    console.error('Error al obtener las joyas:', err);
+    console.log('Error al obtener las joyas:', err);
     res.status(500).send('Error al obtener las joyas');
   }
 });
 
+// Ruta para agregar una nueva joya con imagen (sin autenticación)
 app.post('/joyas', upload.single('imagen'), async (req, res) => {
   try {
     const { nombre, descripcion, precio, material, en_stock, categoria } = req.body;
@@ -80,7 +79,7 @@ app.post('/joyas', upload.single('imagen'), async (req, res) => {
       descripcion,
       precio,
       material,
-      en_stock: en_stock === 'true',
+      en_stock: en_stock === 'true', // Convertir string a booleano
       categoria,
       imagen: imagenUrl,
     });
@@ -89,11 +88,12 @@ app.post('/joyas', upload.single('imagen'), async (req, res) => {
     console.log('Joya agregada:', result);
     res.status(201).json({ message: 'Joya agregada con éxito', joya: result });
   } catch (err) {
-    console.error('Error al agregar la joya:', err);
+    console.log('Error al agregar la joya:', err);
     res.status(500).json({ message: 'Error al agregar la joya' });
   }
 });
 
+// Ruta para eliminar una joya
 app.delete('/joyas/:id', async (req, res) => {
   try {
     const result = await Joya.findByIdAndDelete(req.params.id);
@@ -107,6 +107,7 @@ app.delete('/joyas/:id', async (req, res) => {
   }
 });
 
+// Ruta para actualizar una joya
 app.put('/joyas/:id', async (req, res) => {
   try {
     const { nombre, descripcion, precio, material, en_stock, categoria } = req.body;
@@ -130,5 +131,5 @@ app.put('/joyas/:id', async (req, res) => {
 
 // Servidor escuchando
 app.listen(port, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
+  console.log(`Servidor corriendo en http://localhost:${port}`);
 });
